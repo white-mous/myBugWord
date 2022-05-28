@@ -1,21 +1,29 @@
 <template>
-  <div class="lists">
-	    <!-- <div class="box"><a href="#">TOP</a></div> -->
-	    <div class="productList">
-	    <ul>
-		    <li  v-for="item in list" :key="item.id">
-                <div class="sale">限時優惠</div>
-                <img :src="item.url" alt="">
-                <div class="middle-content">
-                    <h2>{{item.name}}</h2>
-                    <span>${{item.price}}</span>
-                </div>
-                <el-divider></el-divider>
-                <el-button class="btn" style="background: #3acef3;"  @click="call(item.id,item.name,item.price,item.url,item.done)" type="primary" round>加入購物車</el-button>	
-		    </li>
-        </ul> 
-    </div> 
-  </div>
+
+
+    <div class="BGC">
+        <div class="container pb-4" >
+            <div class="row ">
+                    <div class="col-6 col-md-2 mt-5 mb-3 item" v-for="item in list" :key="item.id">
+                    <div class="card">
+                        <img :src="item.url" class="card-img-top" alt="...">
+                        <div class="card-body" >
+                            <h5 class="card-title">{{item.name}}</h5>
+                            <p class="card-text">${{item.price}}</p>
+                        </div> <!-- 以下有兩個功能,分別為購物車及我的最愛  -->
+                            <ul class="list-group list-group-flush">
+                                <li class="list-group-item ">
+                                    <el-row :gutter="10">              
+                                        <el-col :span="20"><button class="el-icon-shopping-cart-2 bt" @click="call(item.id,item.name,item.price,item.url,item.done)" > 加入購物車</button></el-col>
+                                        <el-col :span="4"><button class="el-icon-star-off my-love " @click="addlove(item.id,item.name,item.price,item.url,item.done)"></button></el-col>
+                                    </el-row>
+                                </li>
+                            </ul>
+                    </div>
+                    </div>
+            </div>
+        </div>
+    </div>
 </template>
 
 <script>
@@ -90,9 +98,40 @@ export default {
                 this.$store.commit('ADDITEM',{id,name,price,url,itemCount,done})
             }
 
+        },
+        addlove(id,name,price,url,done){
+
+            let result = this.$store.state.LoveList.some(item=>{
+                if(item.name == name ){
+                    //找到該數據是在數組中第幾個位置
+                    let ItemIndex = this.$store.state.LoveList.indexOf(item)
+                    return true 
+                }
+            })
+            if (result){
+                // console.log('資料中已經有了 : ',name)
+            }else{  
+                // console.log("資料中沒有重複,已將資料添加進數組中 : ",name)
+                this.$store.commit('ADDLOVE',{id,name,price,url,done})
+                this.$message({
+                            type: 'success',
+                            message: '添加成功!',                     
+                })
+            }
+            
+
         }
     },
-        //監視商品清單,如果內容發生變動則更新LocalStorage的內容
+    mounted(){
+        this.$store.commit('ADDLIST',this.list)
+
+        if(localStorage.getItem('loveitme') != null){
+            //有資料
+            this.$store.state.LoveList = JSON.parse(localStorage.getItem('loveitme'))
+        }
+
+    },
+    //監視商品清單,如果內容發生變動則更新LocalStorage的內容
     watch:{
        '$store.state.ItemList':{
            deep:true,
@@ -105,6 +144,18 @@ export default {
                     localStorage.setItem('todos',JSON.stringify(value))
                 }
            }
+       },
+       '$store.state.LoveList':{
+           deep:true,
+           handler(value){
+                //如果state的清單沒資料就清空
+                if(this.$store.state.LoveList.length == 0){
+                    localStorage.removeItem('loveitme')
+                }else{
+                    //更新localStorage
+                    localStorage.setItem('loveitme',JSON.stringify(value))
+                }
+           }
        }
     }
 
@@ -113,113 +164,100 @@ export default {
 
 <style scoped>
 
-*{
-    box-sizing: border-box;
-    background-color: #edffe4;
-	margin: 0;
-	padding: 0;
-	border: 0;
-	font-size: 100%;
-	font: inherit;
-	vertical-align: baseline;
+.item{
+    margin-right: 110px;
 }
-.middle-content{
-  min-height: 80px;
+
+.BGC{
+    background-color: #f7f7f7;
 }
-.lists{
-    min-height: 807px;
+
+img{
+    height: 195px;
+    /* width: 135px; */
+    
+}
+.card-title{
+    height: 60px;
+    font-size: 15px;
+    
+}
+
+.card-text{
+    color:  #d7503d;
+}
+
+.card:hover img{
+    transform: scale(.9);
+    transition: .6s ease-in-out;
+}
+
+.bt{
+    background-color: transparent ;
+    height: 30px;
+    width: 130px;
+    border: 2px solid #ccc;
+    border-radius: 10px;
+    
+}
+
+.bt:hover{
+    background-color: #f18678;
 }
 .btn{
-	  margin-top: 9px;
-
-}
-img{
-  height: 135px;
-  width: 135px;
-}
-/* HTML5 display-role reset for older browsers */
-article, aside, details, figcaption, figure, 
-footer, header, hgroup, menu, nav, section {
-	display: block;
-}
-body {
-	line-height: 1;
-}
-ol, ul {
-	list-style: none;
-}
-blockquote, q {
-	quotes: none;
-}
-blockquote:before, blockquote:after,
-q:before, q:after {
-	content: '';
-	content: none;
-}
-table {
-	border-collapse: collapse;
-	border-spacing: 0;
-}
-
-/* ---CSS reset is above--- */
-
-.productList{
-    
-	width: 960px;
-	/* margin: 120px auto; */
-    
-    margin: 0px auto;
-    padding-top: 100px;
-	z-index: 1;
+    text-align: center;
+    color: #d7503d;
+    width: 120px;
 
 }
 
-.productList img{
-	/* width: 60%; */
-	margin-top: 30px;
-	margin-left:30px;
+.my-love{
+    background-color: transparent;
+    border: 1px solid #ccc;
+    border-radius: 50%;
+    font: inherit;
 
 }
-
-.productList li{
-	position: relative;
-	float:left;
-	width: 220px;
-	height: 320px;
-	border: 1px dotted #3acef3;
-	margin-left: 10px;
-	margin-right: 10px;
-	margin-bottom: 20px;
-	padding-right: 5px;
-	padding-left: 10px;
-}
-/* 限時優惠 */
-.productList .sale{
-	position: absolute;
-	top:0;
-	left:0;
-	background: #ff4c00;
-	color:#fff;
-	padding:8px;
-
+.my-love:hover{
+    background-color: #ff0;
 }
 
-/* 產品 */
-.productList li h2{
-	font-weight: bold;
-	color: #f3b500;
-  margin-bottom: 10px;  /* !! 123 !! */
-	margin-top: 30px;
+ @media screen and (max-width:992px) {
 
-}
+    .item{
+        
+         margin-right: 40px;
+         width: 200px;
+      }
+    .item .bt{
+        font-size: 14px;
+        width: 110px;
+    }
+    .item .my-love{
+        font-size: 13px;
+        width: 25px;
+    }
+ 
+  }
 
-/* 價格 */
-.productList li span{
-	color: #ff0059;
-	font-size: 20px;
-  
-  
-}
 
-  
+
+    @media screen and (max-width:767px) {
+
+    .item{
+        
+        margin: auto;
+        width: 200px;
+      }
+    .item .bt{
+        font-size: 14px;
+        width: 110px;
+    }
+    .item .my-love{
+        font-size: 13px;
+        width: 25px;
+    }
+ 
+  }
+
 </style>

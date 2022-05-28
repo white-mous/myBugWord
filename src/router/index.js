@@ -13,6 +13,16 @@ import Nutrition from "../views/Nutrition"
 import Sawdust from "../views/Sawdust"
 import Wood from "../views/Wood"
 import ShoppingCart from "../views/ShoppingCart"
+import ItemSearch from "../views/ItemSearch"
+import Checkout from "../views/Checkout"
+import Odercheck from "../views/Odercheck"
+import MyOder from "../views/MyOder"
+import Mylove from "../views/Mylove"
+
+const originalPush = VueRouter.prototype.push;
+VueRouter.prototype.push = function push(location) {
+  return originalPush.call(this, location).catch((error) => error);
+};
 
 export default new VueRouter({
     // mode:'hash',
@@ -78,8 +88,31 @@ export default new VueRouter({
             path:'/shoppingCart',
             component:ShoppingCart
         },
-        
-
+        //搜尋頁
+        {
+            path:'/itemSearch',
+            component:ItemSearch
+        },
+        //結帳頁
+        {
+            path:'/checkout',
+            component:Checkout
+        },
+        //訂單頁
+        {
+            path:'/odercheck',
+            component:Odercheck
+        },
+        //訂單管理
+        {
+            path:'/myOder',
+            component:MyOder
+        },  
+        //我的最愛
+        {
+            path:'/mylove',
+            component:Mylove
+        },  
     ]
 })
 
