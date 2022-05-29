@@ -14,7 +14,7 @@
                                 <li class="list-group-item ">
                                     <el-row :gutter="10">              
                                         <el-col :span="20"><button class="el-icon-shopping-cart-2 bt" @click="call(item.id,item.name,item.price,item.url,item.done)" > 加入購物車</button></el-col>
-                                        <el-col :span="4"><button class="el-icon-star-off my-love "></button></el-col>
+                                        <el-col :span="4"><button class="el-icon-star-off my-love" @click="addlove(item.id,item.name,item.price,item.url,item.done)"></button></el-col>
                                     </el-row>
                                 </li>
                             </ul>
@@ -33,6 +33,14 @@ export default {
     data(){
         return{
 
+        }
+    },
+    mounted(){
+        this.$store.commit('ADDLIST',this.list)
+        //第一次載入時畫面時,如果localStorage為空,則不沒有動作,如果有資料就載入
+        if(localStorage.getItem('loveitme') != null){
+            //有資料
+            this.$store.state.LoveList = JSON.parse(localStorage.getItem('loveitme'))
         }
     },
     methods:{
@@ -55,12 +63,31 @@ export default {
                 // console.log("資料中沒有重複,已將資料添加進數組中 : ",name)
                 this.$store.commit('ADDITEM',{id,name,price,url,itemCount,done})
             }
+            
+
+        },
+        addlove(id,name,price,url,done){
+
+            let result = this.$store.state.LoveList.some(item=>{
+                if(item.name == name ){
+                    //找到該數據是在數組中第幾個位置
+                    let ItemIndex = this.$store.state.LoveList.indexOf(item)
+                    return true 
+                }
+            })
+            if (result){
+                // console.log('資料中已經有了 : ',name)
+            }else{  
+                // console.log("資料中沒有重複,已將資料添加進數組中 : ",name)
+                this.$store.commit('ADDLOVE',{id,name,price,url,done})
+                this.$message({
+                            type: 'success',
+                            message: '添加成功!',                     
+                })
+            }
+            
 
         }
-    },
-    mounted(){
-        this.$store.commit('ADDLIST',this.$store.state.filterList)
-
     },
     //監視商品清單,如果內容發生變動則更新LocalStorage的內容
     watch:{
@@ -69,10 +96,22 @@ export default {
            handler(value){
                 //如果state的清單沒資料就清空
                 if(this.$store.state.ItemList.length == 0){
-                    localStorage.clear()
+                    localStorage.removeItem('todos')
                 }else{
                     //更新localStorage
                     localStorage.setItem('todos',JSON.stringify(value))
+                }
+           }
+       },
+       '$store.state.LoveList':{
+           deep:true,
+           handler(value){
+                //如果state的清單沒資料就清空
+                if(this.$store.state.LoveList.length == 0){
+                    localStorage.removeItem('loveitme')
+                }else{
+                    //更新localStorage
+                    localStorage.setItem('loveitme',JSON.stringify(value))
                 }
            }
        }

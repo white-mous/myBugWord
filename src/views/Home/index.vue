@@ -36,7 +36,7 @@
       </div>
       <div class="wrap container">
         <div class="row">
-          <div class="item col-4 col-md-1" @click="changeRoute(1)">
+          <div class="item col-4 col-md-1 " @click="changeRoute(1)">
               <img src="./images/SrZhDz.jpg">
               <div class="txt">
                   <h2>甲蟲成蟲專用水苔</h2>
@@ -46,7 +46,7 @@
                   <span>已售出 : 2,236</span>
               </div>
           </div>
-          <div class="item col-4 col-md-1" @click="changeRoute(2)">
+          <div class="item col-4 col-md-1 " @click="changeRoute(2)">
               <img src="./images/pd15_011b.jpg">
               <div class="txt">
                   <h2>活菌兜蟲專用土</h2>
@@ -56,7 +56,7 @@
                   <span>已售出 : 3,546</span>
               </div>
           </div>
-          <div class="item col-4 col-md-1" @click="changeRoute(3)">
+          <div class="item col-4 col-md-1 " @click="changeRoute(3)">
               <img src="./images/jelly.jpg" >
               <div class="txt">
                   <h2>綜合果凍(四種口味)-40入</h2>
@@ -178,10 +178,11 @@ export default {
       display: flex;
       margin: auto;
   }
-  
+    
   .item{
       width: 366px;
-      margin: 15px;
+      margin: 50px 50px;
+      /* margin: 15px; */
       text-align: center;
       background-color: #fff;
       border: 1px solid #ccc;
@@ -369,6 +370,7 @@ export default {
 .banner{
     width: 100%;
     height: 70vh;
+    position: relative;
     /* height: 700px; */
     background-color: #ccc;
     background: 
@@ -410,6 +412,10 @@ export default {
     display: block;
 }
 .banner-txt h3{
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
     font-size: 50px;
     font-weight: 700;
     color: #fff;
@@ -418,7 +424,77 @@ export default {
     font-size: 20px;
     font-weight: 300;
 }
- @media screen and (max-width:767px) {
+ 
+
+   @media screen and (max-width:992px) {
+     .banner{
+          background: 
+        linear-gradient(30deg,#b3eeca 25%,transparent 25%) center center 
+        / 25% 100%,
+        url("./images/beetle.png") center center / auto 95%;
+    }
+    .banner-txt h1{
+      margin-top: 20px;
+      text-align: left;
+      transform: rotate(25deg);
+      color: #fff;
+    }
+    .banner-txt small{
+      width: 40px;
+      font-size: 30px;
+      transform: rotate(-25deg);
+      border-bottom: 0px;
+      color: #fff;
+    
+    }
+    .banner-txt h3{
+      color: #888;
+    }
+
+  
+    .BGC .wrap .item{
+       margin: auto;
+       margin-top: 50px;
+    }
+    .txt-wrap {
+      width: 100%;
+    }
+    .txt-container h1{
+      margin: 0 10px;
+      font-size:43px;
+    }
+    .txt-container h1::before,
+    .txt-container h1::after{
+        height: 6px;
+        width: 2em;
+        margin: auto;
+    }
+    .wrap .row .item {
+      width: 290px;
+      height: 560px;
+    }
+    .wrap .row .item img{
+      height: 260px;
+      width: 100%;
+    } 
+
+    .featurette img{
+      width: 350px;
+      height: 350px;
+    }
+    
+    .map-font p{
+      
+      display: flex;
+      flex-direction: row;
+      width: 350px;
+    }
+    .map{
+      height: 320px;
+    }
+   }
+
+   @media screen and (max-width:767px) {
 
     .banner{
           background: 
@@ -428,7 +504,7 @@ export default {
     }
     .banner-txt h1{
       margin-top: 20px;
-      font-size: 44px;
+      font-size: 40px;
       text-align: left;
       transform: rotate(14deg);
       color: #fff;
@@ -442,7 +518,6 @@ export default {
 
     }
     .banner-txt h3{
-      padding-top: 25px;
       font-size: 28px;  
       margin: auto;
       color: #888;
@@ -466,13 +541,13 @@ export default {
         width: 2em;
         margin: auto;
     }
-              .wrap .row .item {
-                width: 290px;
-              }
-              .wrap .row .item img{
-                height: 260px;
-                width: 100%;
-              } 
+    .wrap .row .item {
+      width: 290px;
+    }
+    .wrap .row .item img{
+      height: 260px;
+      width: 100%;
+    } 
 
     .featurette img{
       width: 150px;
@@ -489,72 +564,4 @@ export default {
       height: 320px;
     }
   }
-
-   @media screen and (max-width:992px) {
-     .banner{
-          background: 
-        linear-gradient(30deg,#b3eeca 14%,transparent 14%) center center 
-        / 15% 100%,
-        url("./images/beetle.png") center center / auto 95%;
-    }
-    .banner-txt h1{
-      margin-top: 20px;
-      /* font-size: 44px; */
-      text-align: left;
-      transform: rotate(25deg);
-      color: #fff;
-    }
-    .banner-txt small{
-      width: 40px;
-      font-size: 30px;
-      transform: rotate(-25deg);
-      border-bottom: 0px;
-      color: #fff;
-
-    }
-    .banner-txt h3{
-      color: #888;
-    }
-
-  
-    .BGC .wrap .item{
-       margin: auto;
-       margin-top: 50px;
-    }
-    .txt-wrap {
-      width: 100%;
-    }
-    .txt-container h1{
-      margin: 0 10px;
-      font-size:43px;
-    }
-    .txt-container h1::before,
-    .txt-container h1::after{
-        height: 6px;
-        width: 2em;
-        margin: auto;
-    }
-              .wrap .row .item {
-                width: 290px;
-              }
-              .wrap .row .item img{
-                height: 260px;
-                width: 100%;
-              } 
-
-    .featurette img{
-      width: 350px;
-      height: 350px;
-    }
-    
-    .map-font p{
-      
-      display: flex;
-      flex-direction: row;
-      width: 350px;
-    }
-    .map{
-      height: 320px;
-    }
-   }
 </style>

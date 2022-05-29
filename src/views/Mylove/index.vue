@@ -39,6 +39,7 @@ export default {
         }
     },
     methods:{
+        
 		//加入購物車功能
         call(id,name,price,url,done){
 
@@ -65,6 +66,7 @@ export default {
                     this.$confirm('將從最愛移除, 是否繼續?', '提示', {
                         confirmButtonText: '確定',
                         cancelButtonText: '取消',
+                         customClass: 'message-logout',
                         type: 'warning'
                     }).then(() => {
                         this.$message({
@@ -194,7 +196,9 @@ img{
     transform: translateY(250px);
 }
 
+
   @media screen and (max-width:767px) {
+
 
     .item{
          margin-right: 0px;
@@ -233,3 +237,4 @@ img{
  
   }
 </style>
+

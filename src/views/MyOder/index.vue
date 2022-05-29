@@ -118,9 +118,9 @@
              </div>       
         </div>
        <div class="row" v-else >
-              <div class="col-12"  >
-              <h1>Order </h1>
-              <p class="mainText">目前沒有訂單。</p>
+              <div class="col-12 second-content" >
+                  <h1>Order </h1>
+                  <p class="mainText">目前沒有訂單。</p>
             </div>
        </div>
     </div>
@@ -219,6 +219,9 @@
     margin: 0px 50px;
   }
 
+  .second-content{
+    min-height: 500px;
+  }
 
  @media screen and (max-width:992px) {
   

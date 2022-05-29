@@ -223,15 +223,18 @@ export default {
     .DeleteBtn{
            display: none;
     }
-
+    .rowList{
+        position: relative;
+    }
     .rowList:hover{
         background-color: #ddd;
     }
 
     .rowList:hover .DeleteBtn{
            display: block ;
-           /* display: flex; */
-           transform: translateX(1220px);
+           position: absolute;
+           right: 0;
+           top: 0;
     }
     .footerContent{
         justify-content: center;
@@ -241,7 +244,16 @@ export default {
         width: 135px;
     }
     
+
+    
   @media screen and (max-width:767px) {
+    .el-message-box{
+        width: 300px;
+        background-color: #f00;
+    }
+
+
+
     .rowList{
         width: 100%;
     }
@@ -274,8 +286,14 @@ export default {
     }
 
 
-    .rowList:hover .DeleteBtn{
-           transform: translateX(275px);
-    }
   }
+
+</style>
+
+<style>
+    @media screen and (max-width:767px) {
+        .el-message-box{
+            width: 80%;
+        }
+    }
 </style>
